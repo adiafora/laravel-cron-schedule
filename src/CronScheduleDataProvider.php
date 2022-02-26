@@ -2,8 +2,8 @@
 
 namespace Adiafora\Schedule;
 
-use Adiafora\Console\Schedule\ScheduleRunCommand;
-use Adiafora\Console\Schedule\ScheduleWorkCommand;
+use Adiafora\Schedule\Console\ScheduleRunCommand;
+use Adiafora\Schedule\Console\ScheduleWorkCommand;
 use Illuminate\Support\ServiceProvider;
 
 class CronScheduleDataProvider extends ServiceProvider

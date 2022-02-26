@@ -1,6 +1,6 @@
 <?php
 
-namespace Adiafora\Console\Schedule;
+namespace Adiafora\Schedule\Console;
 
 use Illuminate\Console\Scheduling\ScheduleWorkCommand as ParentScheduleWorkCommand;
 use Illuminate\Support\Carbon;

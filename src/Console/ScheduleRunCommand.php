@@ -1,6 +1,6 @@
 <?php
 
-namespace Adiafora\Console\Schedule;
+namespace Adiafora\Schedule\Console;
 
 use Illuminate\Console\Scheduling\ScheduleRunCommand as ParentScheduleRunCommand;
 use Illuminate\Console\Events\ScheduledTaskSkipped;
