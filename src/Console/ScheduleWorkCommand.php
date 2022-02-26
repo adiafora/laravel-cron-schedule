@@ -8,6 +8,9 @@ use Symfony\Component\Process\Process;
 
 class ScheduleWorkCommand extends ParentScheduleWorkCommand
 {
+    /**
+     * @var string
+     */
     protected $signature = 'cron-schedule:work {--cron=default}';
 
     /**
@@ -26,7 +29,7 @@ class ScheduleWorkCommand extends ParentScheduleWorkCommand
 
             if (Carbon::now()->second === 0 &&
                 ! Carbon::now()->startOfMinute()->equalTo($lastExecutionStartedAt)) {
-                $executions[] = $execution = new Process([PHP_BINARY, 'artisan', $this->getRunCommand()]);
+                $executions[] = $execution = new Process([PHP_BINARY, 'artisan', 'cron-schedule:run', $this->getCronName()]);
 
                 $execution->start();
 
@@ -57,8 +60,8 @@ class ScheduleWorkCommand extends ParentScheduleWorkCommand
     /**
      * @return string
      */
-    protected function getRunCommand(): string
+    protected function getCronName(): string
     {
-        return 'cron-schedule:run --cron=' . $this->option('cron');
+        return '--cron=' . $this->option('cron');
     }
 }

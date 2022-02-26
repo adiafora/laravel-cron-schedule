@@ -10,10 +10,28 @@ use Illuminate\Support\Collection;
 class Schedule extends ParentSchedule
 {
     /**
+     * Only tasks of this cron will be started.
+     *
+     * @var string
+     */
+    protected string $cron;
+
+    /**
+     * Set cron name.
+     *
+     * @param $cron
+     */
+    public function setCron($cron)
+    {
+        $this->cron = $cron;
+    }
+
+    /**
      * Add a new callback event to the schedule.
      *
-     * @param  string|callable  $callback
-     * @param  array  $parameters
+     * @param string|callable $callback
+     * @param array           $parameters
+     *
      * @return \Illuminate\Console\Scheduling\CallbackEvent
      */
     public function call($callback, array $parameters = [])
@@ -28,30 +46,27 @@ class Schedule extends ParentSchedule
     /**
      * Get all of the events on the schedule that are due.
      *
-     * @param  Application $app
-     * @param  string|null  $option
+     * @param Application $app
      *
      * @return Collection
      */
-    public function dueEvents($app, ?string $option = null)
+    public function dueEvents($app)
     {
         return collect($this->events)
+            ->filter($this->cronFilter())
             ->filter
-            ->filter($this->cronFilter($option))
             ->isDue($app);
     }
 
     /**
      * Leave only tasks for the current cron.
      *
-     * @param $option
-     *
      * @return Closure
      */
-    protected function cronFilter($option): Closure
+    protected function cronFilter(): Closure
     {
-        return function ($value) use ($option) {
-            return $value->cron == $option;
+        return function ($value) {
+            return $value->cron == $this->cron;
         };
     }
 }
