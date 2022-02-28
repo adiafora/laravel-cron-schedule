@@ -66,7 +66,7 @@ class Schedule extends ParentSchedule
     protected function cronFilter(): Closure
     {
         return function ($value) {
-            return $value->cron == $this->cron;
+            return $value->cron === $this->cron;
         };
     }
 }
