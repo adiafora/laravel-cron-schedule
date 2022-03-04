@@ -12,10 +12,7 @@
   ],
   "require": {
     "php": "^7.4.0 | ^8.0.0",
-    "illuminate/container": "^8.0",
-    "illuminate/support": "^8.0",
-    "symfony/console": "^5.4",
-    "illuminate/console": "^6.0|^7.0|^8.0|^9.0"
+    "laravel/framework": "^8.0 | ^9.0"
   },
   "autoload": {
     "psr-4": {
