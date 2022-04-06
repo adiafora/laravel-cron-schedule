@@ -3,7 +3,9 @@
 namespace Adiafora\Schedule\Console;
 
 use Adiafora\Schedule\Schedule as MySchedule;
+use Cron\CronExpression;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Carbon;
 
 class ScheduleListCommand extends \Illuminate\Console\Scheduling\ScheduleListCommand
 {
@@ -25,6 +27,25 @@ class ScheduleListCommand extends \Illuminate\Console\Scheduling\ScheduleListCom
 
     public function handle(Schedule $schedule)
     {
-        parent::handle($this->mySchedule);
+        foreach ($this->mySchedule->events() as $event) {
+            $rows[] = [
+                $event->command,
+                $event->expression,
+                $event->cron != 'default' ? $event->cron : '',
+                $event->description,
+                (new CronExpression($event->expression))
+                    ->getNextRunDate(Carbon::now()->setTimezone($event->timezone))
+                    ->setTimezone($this->option('timezone', config('app.timezone')))
+                    ->format('Y-m-d H:i:s P'),
+            ];
+        }
+
+        $this->table([
+            'Command',
+            'Interval',
+            'Cron',
+            'Description',
+            'Next Due',
+        ], $rows ?? []);
     }
 }
