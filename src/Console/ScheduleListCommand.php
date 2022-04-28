@@ -4,6 +4,7 @@ namespace Adiafora\Schedule\Console;
 
 use Adiafora\Schedule\Schedule as MySchedule;
 use Cron\CronExpression;
+use DateTimeZone;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Carbon;
 
@@ -35,7 +36,7 @@ class ScheduleListCommand extends \Illuminate\Console\Scheduling\ScheduleListCom
                 $event->description,
                 (new CronExpression($event->expression))
                     ->getNextRunDate(Carbon::now()->setTimezone($event->timezone))
-                    ->setTimezone($this->option('timezone', config('app.timezone')))
+                    ->setTimezone(new DateTimeZone($this->option('timezone') ?? config('app.timezone')))
                     ->format('Y-m-d H:i:s P'),
             ];
         }
